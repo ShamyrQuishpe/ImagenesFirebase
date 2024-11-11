@@ -15,13 +15,14 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
-    provideFirebaseApp(() => initializeApp({apiKey: "AIzaSyDp4RCs8UwhBrTNivTVoBkbDwQ_s1LYxLI",
-      authDomain: "b-1accc.firebaseapp.com",
-      projectId: "b-1accc",
-      storageBucket: "b-1accc.firebasestorage.app",
-      messagingSenderId: "606986248368",
-      appId: "1:606986248368:web:df6c0a16fa5bc4ed9a9b75",
-      measurementId: "G-QDN8GEEH17"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage())],
+    provideFirebaseApp(() => initializeApp({apiKey: "AIzaSyDQBcguYwkJZKL5aSIeX93NHkf8UbOzLN8",
+      authDomain: "proyectom-21417.firebaseapp.com",
+      projectId: "proyectom-21417",
+      storageBucket: "proyectom-21417.firebasestorage.app",
+      messagingSenderId: "123108399587",
+      appId: "1:123108399587:web:90d89db16c3633901428d6",
+      measurementId: "G-M75K1KBLTV"
+     })), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()), provideFirebaseApp(() => initializeApp({"projectId":"proyectom-21417","appId":"1:123108399587:web:115a477852cd4d7d1428d6","storageBucket":"proyectom-21417.firebasestorage.app","apiKey":"AIzaSyDQBcguYwkJZKL5aSIeX93NHkf8UbOzLN8","authDomain":"proyectom-21417.firebaseapp.com","messagingSenderId":"123108399587","measurementId":"G-2DT69V8DHK"}))],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
