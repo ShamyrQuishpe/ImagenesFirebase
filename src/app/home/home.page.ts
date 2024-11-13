@@ -6,71 +6,53 @@ import { AuthService } from '../services/auth.service';
 import { AvatarService } from '../services/avatar.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+	selector: 'app-home',
+	templateUrl: 'home.page.html',
+	styleUrls: ['home.page.scss']
 })
 export class HomePage {
+	profile: any=null;
 
-  profile: any = null; // Inicialización de profile
+	constructor(
+		private avatarService: AvatarService,
+		private authService: AuthService,
+		private router: Router,
+		private loadingController: LoadingController,
+		private alertController: AlertController
+	) {
+		this.avatarService.getUserProfile().subscribe((data) => {
+			this.profile = data;
+		});
+	}
 
-  constructor(
-    private avatarService: AvatarService,
-    private authService: AuthService,
-    private router: Router,
-    private loadingController: LoadingController,
-    private alertController: AlertController
-  ) {
-    // Verificamos que avatarService esté inyectado correctamente
-    if (this.avatarService) {
-      this.avatarService.getUserProfile().subscribe(
-        (data) => {
-          // Verificación de si data no es nulo o indefinido
-          if (data) {
-            this.profile = data;
-          } else {
-            console.warn('User profile is null or undefined');
-          }
-        },
-        (error) => {
-          // Manejamos el error de la suscripción
-          console.error('Error fetching user profile:', error);
-        }
-      );
-    } else {
-      console.error('AvatarService is not available');
-    }
-  }
+	async logout() {
+		await this.authService.logout();
+		this.router.navigateByUrl('/', { replaceUrl: true });
+	}
 
-  async logout() {
-    await this.authService.logout();
-    this.router.navigateByUrl('/', { replaceUrl: true });
-  }
+	async changeImage() {
+		const image = await Camera.getPhoto({
+			quality: 90,
+			allowEditing: false,
+			resultType: CameraResultType.Base64,
+			source: CameraSource.Photos // Camera, Photos or Prompt!
+		});
 
-  async changeImage() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Photos // Camera, Photos or Prompt!
-    });
+		if (image) {
+			const loading = await this.loadingController.create();
+			await loading.present();
 
-    if (image) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+			const result = await this.avatarService.uploadImage(image);
+			loading.dismiss();
 
-      const result = await this.avatarService.uploadImage(image);
-      loading.dismiss();
-
-      if (!result) {
-        const alert = await this.alertController.create({
-          header: 'Upload failed',
-          message: 'There was a problem uploading your avatar.',
-          buttons: ['OK']
-        });
-        await alert.present();
-      }
-    }
-  }
-
+			if (!result) {
+				const alert = await this.alertController.create({
+					header: 'Upload failed',
+					message: 'There was a problem uploading your avatar.',
+					buttons: ['OK']
+				});
+				await alert.present();
+			}
+		}
+	}
 }
