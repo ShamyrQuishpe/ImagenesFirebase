@@ -15,7 +15,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
-    provideFirebaseApp(() => initializeApp({apiKey: "AIzaSyB4n_LqqTgsBbO0Qd3_7DnwQUVrM7jLPo4",
+    provideFirebaseApp(() => initializeApp({
+      apiKey: "AIzaSyB4n_LqqTgsBbO0Qd3_7DnwQUVrM7jLPo4",
       authDomain: "movil24b.firebaseapp.com",
       projectId: "movil24b",
       storageBucket: "movil24b.firebasestorage.app",
